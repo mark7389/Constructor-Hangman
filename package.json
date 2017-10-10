@@ -1,0 +1,19 @@
+{
+  "name": "constructor-hangman",
+  "version": "0.0.1",
+  "description": "Command line hangman",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mark7389/Constructor-Hangman.git"
+  },
+  "author": "Mark Soliman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mark7389/Constructor-Hangman/issues"
+  },
+  "homepage": "https://github.com/mark7389/Constructor-Hangman#readme"
+}
