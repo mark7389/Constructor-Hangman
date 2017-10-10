@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/mark7389/Constructor-Hangman/issues"
   },
-  "homepage": "https://github.com/mark7389/Constructor-Hangman#readme"
+  "homepage": "https://github.com/mark7389/Constructor-Hangman#readme",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "inquirer": "^3.3.0"
+  }
 }
