@@ -1,14 +1,27 @@
 const word = require("./words.js");
 const fs = require("fs");
 
-var User = function(){
+var User = function(n){
 	
-		this.name = "";
+		this.name = n;
 		this.wins = 0;
 		this.losses = 0;
 		this.LogExists = false;
-		
+		this.getWords = function(func){
+			if(typeof func !== "function"){
+
+				throw new TypeError("Callback not a function, must pass function argument as Callback");
+			}
+			
+			fs.readFile("words.txt", "utf8", function(err, data){
+
+				var wordArr = data.split(",");
+				func(wordArr);
+
+			});
+		}		
 }
+
 
 
 User.prototype.getInfo = function(func){
@@ -95,5 +108,3 @@ User.prototype.updateFile = function(){
 
 
 module.exports = User;
-
-
