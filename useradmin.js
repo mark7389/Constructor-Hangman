@@ -121,9 +121,72 @@ function start(func){
 
 });
 
+User.prototype.initGame = function(user, arr, c){
+
+	
+	if(c >= arr.length){
+
+		inquirer.prompt([{
+
+			type:"confirm",
+			message: "Play Again?",
+			choices:["Sure !", "No, Quit !"],
+			name: "choice"
+
+		}]).then(function(ans){
+
+			if(ans.choice === "Sure !"){
+
+				//restart game...
+			}
+			else{
+
+				user.getInfo(function(obj){
+					//final message
+					console.log(obj.win+ " " +obj.lose);//display final aggregate stats from all games played
+				});
+
+				user.updateFile();
+			}
+		});
+
+	}
+
+	else{
+		
+		var currentWord = new word(arr[c]);
+		currentWord.createArr();
+		user.gamePlay(currentWord, c);
+		
+
+
+	}
+
+
+}
+
+User.prototype.gamePlay = function(currentWord, c){
+	console.log(currentWord.letterArr+" "+currentWord.holderArr)
+
+	inquirer.prompt([
+	{
+		name: "name",
+		message: "Guess a Letter:"
+		
+	}]).then(function(ans){
+
+		//if win or lose current word----initgame with c++...update user win and lose stats
+		//else console.log placeholders...etc..comparing letterArr and placeHolderarr as game progresses
+		this.gamePlay(currentWord);
+
+	})
+
+}
+
 } 
 module.exports = {
 
 	User: User,
-	start:start
+	start:start,
+	
 };

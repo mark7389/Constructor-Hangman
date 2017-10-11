@@ -4,7 +4,7 @@ var Word = function(str){
 
 	this.letterArr = [];
 	this.holderArr = [];
-	this.currentWord = str.toLowerCase();
+	
 
 	this.createArr = function(){
 
