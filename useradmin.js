@@ -1,5 +1,6 @@
 const word = require("./words.js");
 const fs = require("fs");
+const inquirer = require("inquirer");
 
 var User = function(n){
 	
@@ -12,17 +13,11 @@ var User = function(n){
 
 				throw new TypeError("Callback not a function, must pass function argument as Callback");
 			}
-			
-			fs.readFile("words.txt", "utf8", function(err, data){
 
-				var wordArr = data.split(",");
-				func(wordArr);
-
-			});
+			this.wordArr = fs.readFileSync("words.txt", "utf8").split(",");
+			func(this.wordArr);
 		}		
 }
-
-
 
 User.prototype.getInfo = function(func){
 
@@ -106,5 +101,29 @@ User.prototype.updateFile = function(){
 
 }
 
+function start(func){
 
-module.exports = User;
+	if(typeof func !== "function"){
+
+		throw new TypeError("Callback should be a function!!" + " " + typeof func);
+	}
+
+	inquirer.prompt([
+
+		{
+			name:"who",
+			message:"Please enter your name: "
+		}
+
+	]).then(function(ans){
+
+		func(ans.who);
+
+});
+
+} 
+module.exports = {
+
+	User: User,
+	start:start
+};
