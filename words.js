@@ -1,13 +1,16 @@
+//require letter constructor
 const letters = require("./letters.js");
-
+//word object constructor
 var Word = function(str){
-
+	//an array of letters from letter objects
 	this.letterArr = [];
+	//an array of placeholders from letter objects
 	this.holderArr = [];
+	//the str argument aka current word being played
 	this.currentWord = str.toLowerCase();
-
+	//creates the letter object arrays UP
 	this.createArr = function(){
-
+		//prototype like forEach but for strings
 		this.forEvery(function(c){
 			
 			var character = new letters(c);
@@ -18,7 +21,7 @@ var Word = function(str){
 	}
 }
 
-
+//prototype looping function for string similar to forEach with arrays...
 Word.prototype.forEvery = function(func){
 
 	if(typeof func !== "function"){
@@ -50,4 +53,4 @@ Word.prototype.forEvery = function(func){
 
 }
 
-module.exports = Word;
+module.exports = Word;//export word constructor
