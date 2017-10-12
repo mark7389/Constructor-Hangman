@@ -56,9 +56,9 @@ User.prototype.appendUser = function(){
 				});
 			
 
-			}.bind(this));
+			}.bind(this));//inner callback function bind this value to be user
 
-		}.bind(this));
+		}.bind(this));//outter callback function bind this value to be user
 	}
 
 	else{
@@ -95,9 +95,10 @@ User.prototype.updateFile = function(){
 			}
 
 
-		}.bind(this));
+		}.bind(this));//inner callback function bind this value to be user
 
-	}.bind(this));
+
+	}.bind(this));//outter callback function bind this value to be user
 
 }
 //start point to get username
@@ -156,7 +157,7 @@ User.prototype.initGame = function(user, arr, c){
 
 				return;
 			}
-		}.bind(this));
+		}.bind(this));//bind user to callback
 
 	}
 
@@ -246,7 +247,7 @@ User.prototype.gamePlay = function(currentWord, c){
 
 				
 
-			}.bind(this));
+			}.bind(this));//bind user to callback
 
 		}
 
