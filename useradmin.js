@@ -128,7 +128,7 @@ User.prototype.initGame = function(user, arr, c){
 
 	guesses = 9;
 	guessed = [];
-	wordArr = arr;
+
 	//if counter equal word array.length then round is done get info update file and ask if user wants to quit or continue playing
 	if(c >= arr.length){
 
