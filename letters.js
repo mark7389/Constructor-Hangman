@@ -1,5 +1,6 @@
+//the letter constructor
 var Letter = function(char){
-
+	//made of a letter
 	this.char = char;
 
 	if(char === " "){
@@ -8,10 +9,10 @@ var Letter = function(char){
 
 	}
 	else{
-
+		//and a placeholder
 		this.placeHolder = "_";
 	}
 	
 }
 
-module.exports = Letter;
+module.exports = Letter;//export constructor function
