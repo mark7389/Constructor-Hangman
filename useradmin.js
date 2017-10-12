@@ -1,6 +1,9 @@
 const word = require("./words.js");
 const fs = require("fs");
 const inquirer = require("inquirer");
+const chalk = require("chalk");
+
+let wordArr , guesses = 9, guessed = [];
 
 var User = function(n){
 	
@@ -9,6 +12,7 @@ var User = function(n){
 		this.losses = 0;
 		this.LogExists = false;
 		this.getWords = function(func){
+
 			if(typeof func !== "function"){
 
 				throw new TypeError("Callback not a function, must pass function argument as Callback");
@@ -121,10 +125,22 @@ function start(func){
 
 });
 
+}
+
 User.prototype.initGame = function(user, arr, c){
 
+
+	wordArr = arr;
 	
 	if(c >= arr.length){
+
+		user.getInfo(function(obj){
+						
+			console.log("\n"+"All done !!!"+"\n"+"You got "+obj.win+chalk.green(" Right")+" && "
+				+obj.lose+chalk.red(" Wrong")+"\n");
+		});
+
+		user.updateFile();
 
 		inquirer.prompt([{
 
@@ -141,12 +157,7 @@ User.prototype.initGame = function(user, arr, c){
 			}
 			else{
 
-				user.getInfo(function(obj){
-					//final message
-					console.log(obj.win+ " " +obj.lose);//display final aggregate stats from all games played
-				});
-
-				user.updateFile();
+				return;
 			}
 		});
 
@@ -154,11 +165,10 @@ User.prototype.initGame = function(user, arr, c){
 
 	else{
 		
-		var currentWord = new word(arr[c]);
+		var currentWord = new word(wordArr[c]);
+		console.log(currentWord.currentWord);
 		currentWord.createArr();
 		user.gamePlay(currentWord, c);
-		
-
 
 	}
 
@@ -166,27 +176,82 @@ User.prototype.initGame = function(user, arr, c){
 }
 
 User.prototype.gamePlay = function(currentWord, c){
-	console.log(currentWord.letterArr+" "+currentWord.holderArr)
+	console.log(c)
+	var isFound = false;
 
-	inquirer.prompt([
-	{
-		name: "name",
-		message: "Guess a Letter:"
+	if(currentWord.letterArr.join("") === currentWord.holderArr.join("") && guesses >= 1){
+			console.log(this);
+			this.wins++;
+			c++;
+			console.log(c);
+			guesses = 9;
+			console.log("You got it Right!!! Next Word >>>");
+			// console.log(wordArr);
+			this.initGame(this,this.wordArr,c);
+	}
+
+	else if(currentWord.letterArr.join("") !== currentWord.holderArr.join("") && guesses == 0){
+			console.log(this);
+			this.losses++;
+			c++;
+			guesses = 9;
+			console.log("Oops..better luck on Next Word >>>");
+			console.log(wordArr);
+			this.initGame(this,this.wordArr,c);
+			
+	}
+	else{
+
 		
-	}]).then(function(ans){
 
-		//if win or lose current word----initgame with c++...update user win and lose stats
-		//else console.log placeholders...etc..comparing letterArr and placeHolderarr as game progresses
-		this.gamePlay(currentWord);
+		inquirer.prompt([
+		{
+			name: "name",
+			message: "Guess a Letter:"
+			
+		}]).then(function(ans){
 
-	})
+				if(guessed.indexOf(ans.name) > -1){
 
-}
+					console.log("\nYou already guessed this letter...you just lost an attempt for nothing, FACEPALM !!!\n");
+
+				}
+
+				for(var i = 0; i<currentWord.holderArr.length; i++){
+				
+					if((currentWord.letterArr[i] === ans.name || currentWord.letterArr[i] === ans.name.toUpperCase()) &&  guessed.indexOf(ans.name) === -1){
+
+						currentWord.holderArr[i] = currentWord.letterArr[i];
+						isFound = true;
+						
+					}
+					
+				}
+				if(isFound){
+
+					console.log(currentWord.holderArr.join(" ")+"\n");
+					console.log(chalk.hex("#66ff00").bold("CORRECT"));
+					this.gamePlay(currentWord, c);
+
+				}
+				else{
+					guesses--;
+					console.log(currentWord.holderArr.join(" ")+"\n");
+					console.log(chalk.hex("#FF6600").bold("INCORRECT")+"\n");
+					console.log("Guesses remaining: "+guesses);
+					this.gamePlay(currentWord, c);
+				}
+
+				guessed.push(ans.name);
+
+			}.bind(this));
+
+		}
 
 } 
+
 module.exports = {
 
 	User: User,
-	start:start,
-	
-};
+	start:start	
+}
