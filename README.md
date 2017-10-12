@@ -1,6 +1,6 @@
 # Constructor-Hangman
 
-#### A command line hangman game utilizing Javascript Constructor functions, object prototypes, and callback functions.
+#### A node command line hangman game utilizing Javascript Constructor functions, object prototypes, and callback functions.
 
 To play: 
 
