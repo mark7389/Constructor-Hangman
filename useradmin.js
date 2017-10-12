@@ -11,15 +11,9 @@ var User = function(n){
 		this.wins = 0;
 		this.losses = 0;
 		this.LogExists = false;
-		this.getWords = function(func){
-
-			if(typeof func !== "function"){
-
-				throw new TypeError("Callback not a function, must pass function argument as Callback");
-			}
+		this.getWords = function(){
 
 			this.wordArr = fs.readFileSync("words.txt", "utf8").split(",");
-			func(this.wordArr);
 		}		
 }
 
@@ -144,7 +138,7 @@ User.prototype.initGame = function(user, arr, c){
 
 		inquirer.prompt([{
 
-			type:"confirm",
+			type:"list",
 			message: "Play Again?",
 			choices:["Sure !", "No, Quit !"],
 			name: "choice"
@@ -153,20 +147,19 @@ User.prototype.initGame = function(user, arr, c){
 
 			if(ans.choice === "Sure !"){
 
-				//restart game...
+				this.initGame(this,this.wordArr,0);
 			}
 			else{
 
 				return;
 			}
-		});
+		}.bind(this));
 
 	}
 
 	else{
 		
 		var currentWord = new word(wordArr[c]);
-		console.log(currentWord.currentWord);
 		currentWord.createArr();
 		user.gamePlay(currentWord, c);
 
@@ -176,22 +169,20 @@ User.prototype.initGame = function(user, arr, c){
 }
 
 User.prototype.gamePlay = function(currentWord, c){
-	console.log(c)
+	
 	var isFound = false;
 
 	if(currentWord.letterArr.join("") === currentWord.holderArr.join("") && guesses >= 1){
-			console.log(this);
+		
 			this.wins++;
 			c++;
-			console.log(c);
 			guesses = 9;
 			console.log("You got it Right!!! Next Word >>>");
-			// console.log(wordArr);
 			this.initGame(this,this.wordArr,c);
 	}
 
 	else if(currentWord.letterArr.join("") !== currentWord.holderArr.join("") && guesses == 0){
-			console.log(this);
+			
 			this.losses++;
 			c++;
 			guesses = 9;
@@ -207,7 +198,13 @@ User.prototype.gamePlay = function(currentWord, c){
 		inquirer.prompt([
 		{
 			name: "name",
-			message: "Guess a Letter:"
+			message: "Guess a Letter:",
+			validate:function(value){
+				if(value.length === 1 && isNaN(value)){
+					return true;
+				}
+				return false;	
+			}
 			
 		}]).then(function(ans){
 

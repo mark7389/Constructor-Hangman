@@ -6,10 +6,8 @@ let currentUser
 user.start(function(name){
 
 	currentUser = new user.User(name);
-	currentUser.getWords(function(arr){
-		console.log(arr);
-		currentUser.initGame(currentUser, arr, 0);
+	currentUser.getWords();	
+	currentUser.initGame(currentUser,currentUser.wordArr, 0);
 
-	});
 });
 
